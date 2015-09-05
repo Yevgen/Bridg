@@ -96,17 +96,13 @@ namespace Bridg
                 button1.Enabled = false;
                 button2.Enabled = false;
             }
-
             if (_table.OpenDeck.Priority() == 11)
             {
                 ShowSuid();
             }
             else pictureBox1.Image = null;
 
-
             label5.Text = "Очки множаться на " + _table.Multiplier;
-
-
         }
         private void ShowScoreOfPlayer(string[] names, string[] scores, int numberOfSelectPlayer)
         {
