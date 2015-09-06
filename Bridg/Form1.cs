@@ -39,6 +39,7 @@ namespace Bridg
             _table.GetSuid += GetSuid;
             _table.ShowCard += showCard;
             _table.ShowScoresOfPlayers += ShowScoreOfPlayer;
+            _table.ShowSuitOfJack += ShowSuid;
             
             timer1.Enabled = true;
         }
@@ -75,6 +76,8 @@ namespace Bridg
             pictureBox2.Image = canvas;
 
             _table.ShowAllScores();
+
+            _table.ShowSuit();
             if (_table.OpenDeck == null)
                 return;
 
@@ -96,11 +99,6 @@ namespace Bridg
                 button1.Enabled = false;
                 button2.Enabled = false;
             }
-            if (_table.OpenDeck.Priority() == 11)
-            {
-                ShowSuid();
-            }
-            else pictureBox1.Image = null;
 
             label5.Text = "Очки множаться на " + _table.Multiplier;
         }
@@ -120,10 +118,13 @@ namespace Bridg
             arrLabel[numberOfSelectPlayer].ForeColor = Color.Green;
             arrLabelScores[numberOfSelectPlayer].ForeColor = Color.Green;
         }
-        private void ShowSuid()
+        private void ShowSuid(int suit)
         {
-            switch (_table.SuitOfJeck)
+            switch (suit)
             {
+                case -1:
+                    pictureBox1.Image = null;
+                    break;
                 case 0:
                     pictureBox1.Image = Properties.Resources._000;
                     break;

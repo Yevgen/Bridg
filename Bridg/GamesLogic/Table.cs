@@ -9,6 +9,7 @@ namespace Bridg
     public delegate int GetCountDelegate();
     public delegate void ShowCardDelegate(int number, int x, int y);
     public delegate void ShowScoresDelegate(string[] names, string[] scores, int numberSelectPlayer);
+    public delegate void ShowSuitOfJackDelegate(int suit);
 
     public class Table
     {
@@ -182,6 +183,7 @@ namespace Bridg
         /// </summary>
         public event ShowCardDelegate ShowCard;
         public event ShowScoresDelegate ShowScoresOfPlayers;
+        public event ShowSuitOfJackDelegate ShowSuitOfJack;
 
         #endregion
 
@@ -430,6 +432,7 @@ namespace Bridg
                 _openDeck.Add(card1[numb]);
 
                 card1.RemoveAt(numb);
+
             }
         }
         /// <summary>
@@ -944,6 +947,15 @@ namespace Bridg
                 scores[w] = "";
             }
             ShowScoresOfPlayers(names, scores, _selectPlayer.Number - 1);
+        }
+        public void ShowSuit()
+        {
+            if (ShowSuitOfJack != null)
+            {
+                if (_openDeck.Count > 0 && _openDeck[_openDeck.Count - 1].Priority() == 11)
+                    ShowSuitOfJack(_suitOfJeck);
+                else ShowSuitOfJack(-1);
+            }
         }
         /// <summary>
         /// Натиснення на стіл в заданих координатах
