@@ -163,14 +163,14 @@
             this.новаГраToolStripMenuItem.Name = "новаГраToolStripMenuItem";
             this.новаГраToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.новаГраToolStripMenuItem.Text = "Нова гра";
-            this.новаГраToolStripMenuItem.Click += new System.EventHandler(this.новаГраToolStripMenuItem_Click);
+            this.новаГраToolStripMenuItem.Click += new System.EventHandler(this.NewGameToolStripMenuItem_Click);
             // 
             // вихідToolStripMenuItem
             // 
             this.вихідToolStripMenuItem.Name = "вихідToolStripMenuItem";
             this.вихідToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.вихідToolStripMenuItem.Text = "Вихід";
-            this.вихідToolStripMenuItem.Click += new System.EventHandler(this.вихідToolStripMenuItem_Click);
+            this.вихідToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
             // довідкаToolStripMenuItem
             // 
@@ -186,7 +186,7 @@
             this.проПрограмуToolStripMenuItem.Name = "проПрограмуToolStripMenuItem";
             this.проПрограмуToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.проПрограмуToolStripMenuItem.Text = "Про програму";
-            this.проПрограмуToolStripMenuItem.Click += new System.EventHandler(this.проПрограмуToolStripMenuItem_Click);
+            this.проПрограмуToolStripMenuItem.Click += new System.EventHandler(this.AboutBoxToolStripMenuItem_Click);
             // 
             // правилаToolStripMenuItem
             // 

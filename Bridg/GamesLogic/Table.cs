@@ -933,7 +933,7 @@ namespace Bridg
         }
         public void ShowAllScores()
         {
-            string[] names = new string[4];
+            string[] names = new string[5];
             string[] scores = new string[4];
             int w = 0;
             for (; w < _players.Count; w++)
@@ -946,6 +946,7 @@ namespace Bridg
                 names[w] = "";
                 scores[w] = "";
             }
+            names[4] = "Очки множаться на " + _multiplier;
             ShowScoresOfPlayers(names, scores, _selectPlayer.Number - 1);
         }
         public void ShowSuit()
@@ -956,6 +957,12 @@ namespace Bridg
                     ShowSuitOfJack(_suitOfJeck);
                 else ShowSuitOfJack(-1);
             }
+        }
+        public void ShowAll()
+        {
+            ShowAllCards();
+            ShowAllScores();
+            ShowSuit();
         }
         /// <summary>
         /// Натиснення на стіл в заданих координатах

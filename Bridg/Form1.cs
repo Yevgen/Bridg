@@ -15,29 +15,29 @@ namespace Bridg
     public partial class Form1 : Form
     {
         Table _table;
-        Bitmap[] bitmaps;
+        Bitmap[] _bitmapsOfCards;
 
-        Bitmap canvas = new Bitmap(600, 600);
-        Bitmap back = new Bitmap(600, 600);
-        Graphics gr1;
+        Bitmap _canvas = new Bitmap(600, 600);
+        Bitmap _TableBackground = new Bitmap(600, 600);
+        Graphics _graphics;
 
 
         public Form1()
         {
             InitializeComponent();
-            back = Properties.Resources.BackGround_1;
-            gr1 = Graphics.FromImage(canvas);
+            _TableBackground = Properties.Resources.BackGround_1;
+            _graphics = Graphics.FromImage(_canvas);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            LoadI();
+            LoadBitmapsOfCards();
 
             _table = new Table(600);
             _table.ShowMessage += ShowMessage;
             _table.GetCountPlayers += GetCountPlayers;
             _table.GetSuid += GetSuid;
-            _table.ShowCard += showCard;
+            _table.ShowCard += ShowCard;
             _table.ShowScoresOfPlayers += ShowScoreOfPlayer;
             _table.ShowSuitOfJack += ShowSuid;
             
@@ -66,18 +66,21 @@ namespace Bridg
             MessageBox.Show(message);
         }
 
-        //private bool OnDraw = true;
         private void timer1_Tick(object sender, EventArgs e)
         {
-            _table.Referi();
+            try
+            {
+                DrawBackground();
 
-            draw();
-            _table.ShowAllCards();
-            pictureBox2.Image = canvas;
+                _table.Referi();
+                _table.ShowAll();
 
-            _table.ShowAllScores();
-
-            _table.ShowSuit();
+                pictureBox2.Image = _canvas;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             if (_table.OpenDeck == null)
                 return;
 
@@ -100,7 +103,7 @@ namespace Bridg
                 button2.Enabled = false;
             }
 
-            label5.Text = "Очки множаться на " + _table.Multiplier;
+            //label5.Text = "Очки множаться на " + _table.Multiplier;
         }
         private void ShowScoreOfPlayer(string[] names, string[] scores, int numberOfSelectPlayer)
         {
@@ -117,6 +120,9 @@ namespace Bridg
 
             arrLabel[numberOfSelectPlayer].ForeColor = Color.Green;
             arrLabelScores[numberOfSelectPlayer].ForeColor = Color.Green;
+
+            if (names.Count() > 4)
+                label5.Text = names[4];
         }
         private void ShowSuid(int suit)
         {
@@ -139,12 +145,12 @@ namespace Bridg
                     break;
             }
         }
-        public void LoadI()
+        public void LoadBitmapsOfCards()
         {
-            bitmaps = BackArrBm();
+            _bitmapsOfCards = ReturnTheArreyOfBitmaps();
         }
 
-        private Bitmap[] BackArrBm()
+        private Bitmap[] ReturnTheArreyOfBitmaps()
         {
             Bitmap[] res = new Bitmap[40];
             res[0] = Properties.Resources._0;
@@ -192,28 +198,28 @@ namespace Bridg
 
             return res;
         }
-        private void showCard(int number, int x, int y)
+        private void ShowCard(int number, int x, int y)
         {
             //Оригінальна ширина і висота карти
             int widthC = 181, heightC = 255;
             //Ширина та висота карти на полі
             int widthCards = _table.CardWidth, heightCards = _table.CardHeight;
 
-            Bitmap bitmapCard = bitmaps[number];
+            Bitmap bitmapCard = _bitmapsOfCards[number];
 
             Rectangle rec2 = new Rectangle(x, y, widthCards, heightCards);
 
-            gr1.DrawImage(bitmapCard, rec2, 0, 0, widthC, heightC, GraphicsUnit.Pixel);
+            _graphics.DrawImage(bitmapCard, rec2, 0, 0, widthC, heightC, GraphicsUnit.Pixel);
 
-            pictureBox2.Image = canvas;
+            pictureBox2.Image = _canvas;
         }
-        private void draw()
+        private void DrawBackground()
         {
             if (_table == null)
                 return;
 
             Rectangle newR = new Rectangle(0, 0, 600, 600);
-            gr1.DrawImage(back , newR, 0, 0, 600, 600, GraphicsUnit.Pixel);
+            _graphics.DrawImage(_TableBackground , newR, 0, 0, 600, 600, GraphicsUnit.Pixel);
 
         }
 
@@ -244,25 +250,32 @@ namespace Bridg
         {
             if (_table.ActiveChoice)
                 _table.ChooiseSuidJack();
-            Thread B = new Thread(Thr);
+            Thread B = new Thread(RunAI);
             B.Start();
         }
-        public void Thr()
+        public void RunAI()
         {
-            _table.NextPlayer();
+            try
+            {
+                _table.NextPlayer();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
-        private void новаГраToolStripMenuItem_Click(object sender, EventArgs e)
+        private void NewGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _table.NewGame();
         }
 
-        private void вихідToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void проПрограмуToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AboutBoxToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AboutBox1 newH = new AboutBox1();
             newH.Enabled = true;
